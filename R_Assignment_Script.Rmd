@@ -27,8 +27,11 @@ library(purrr)
 
 DATA INSPECTION
 
-Read the files
+
+# Read the files
+
 ```{r, echo=TRUE}
+
 
 genotypes <- read.table("fang_et_al_genotypes.txt", header = TRUE, sep = "\t", stringsAsFactors = FALSE)
 snp_position <- read.table("snp_position.txt", header = TRUE, sep = "\t", stringsAsFactors = FALSE)
@@ -95,6 +98,20 @@ print(paste("Most common element in Group column:", most_common_group))
 
 most_common_gene <- names(sort(table(snp_position$gene), decreasing = TRUE))[1]
 print(paste("Most common element in gene column:", most_common_gene))
+```
+
+# Observations from Data Inspection
+- After inspection, I learnt the file size is 10.54 mb
+- The data has 2782 rows and 986 columns
+- There is 135452 missing data encoded by ?/?
+- The most common group is "ZMMLR"
+- The file is ASCII text with very long lines
+
+
+```{r}
+#Inspecting snp_position.txt
+# Read the file
+snp_position <- read.table("snp_position.txt", header = TRUE, sep = "\t", stringsAsFactors = FALSE)
 
 ```
 
@@ -109,6 +126,7 @@ Inspecting snp_position.txt
 
 1. File size (in bytes)
 ```{r, echo=TRUE}
+
 
 file_size_snp <- file.info("snp_position.txt")$size
 print(paste("File size (bytes):", file_size_snp))
@@ -159,8 +177,10 @@ print(paste("Number of '?/?' placeholders:", missing_data_placeholder))
 
 most_common_chromosome <- names(sort(table(snp_position$Chromosome), decreasing = TRUE))[1]
 print(paste("Most common element in Chromosome column:", most_common_chromosome))
+```
 
 ```
+
 
 
 After inspection, I learnt the file size is 79 kb
@@ -171,13 +191,16 @@ The most common gene type is "Zmm28"
 The file is ASCII text with very long lines
 
 
+
 DATA PROCESSING
 
 Transpose the data
 
+
 ```{r, echo=TRUE}
 
 transposed_genotypes <- as.data.frame(t(genotypes), stringsAsFactors = FALSE)
+
 
 ```
 
@@ -375,6 +398,7 @@ FOR TEOSINTE
 Extract teosinte columns
 ```{r, echo=TRUE}
 
+
 teosinte <- merged %>% select(SNP_ID, Chromosome = Chromosome, Position = Position, 
                                  starts_with("ZMPBA"), starts_with("ZMPIL"), starts_with("ZMPJA"))
 
@@ -492,12 +516,15 @@ Create a directory for descending files and move them
 dir.create("Teosinte_descend")
 file.rename(list.files(pattern = "Teosinte_chrd[0-9]+.txt"), file.path("Teosinte_descend", list.files(pattern = "Teosinte_chrd[0-9]+.txt")))
 
+
 ```
+
 
 
 DATA VISUALIZATION
 
 Distribution of SNPs between chromosomes
+
 
 
 Bar chart of the distribution of SNPs by Chromosome
@@ -538,14 +565,18 @@ ggplot(data = maize) +
     theme_classic() +
     scale_fill_viridis_c() 
 
+
 ```
 
+
+# Plot the distribution of SNPs by Chromosome
 
 FOR TEOSINTE
 
 Bar chart of the distribution of SNPs by Chromosome
 
 ```{r, echo=TRUE}
+
 
 ggplot(data = teosinte) + 
     geom_bar(mapping = aes(x = Chromosome, fill = Chromosome)) +
@@ -581,13 +612,11 @@ ggplot(data = teosinte) +
     theme(plot.title = element_text(hjust = 0.5)) +
     theme_classic() +
     scale_fill_viridis_c() 
-
 ```
 
 
-Merged data
-
 ```{r, echo=TRUE}
+
 
 # Count SNPs per chromosome for maize
 maize_snp <- maize %>%
