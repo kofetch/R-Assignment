@@ -1,0 +1,25 @@
+---
+title: "Review_for_Godin"
+author: "kofi"
+date: "2025-03-24"
+output: html_document
+---
+
+I inspected your output files and straight away realised the required "Group" column was missing.
+
+This error comes from this code;
+colnames(transposed_data) <- c("SNP_ID",unlist(extracted_data[1:nrow(extracted_data),1]), use.names = FALSE)
+
+The code sets the column name as SNP_ID, which is correct, but extracts the contents of row number 1 from the extracted_data which is wrong.
+
+Row number 3 is needed instead for our data processing. Thus, modify the code as;
+colnames(transposed_data) <- c("SNP_ID",unlist(extracted_data[1:nrow(extracted_data),3]), use.names = FALSE)
+This should fix all downstream codes and produce accurate files
+
+Sorting the whole file with the Position column set as numeric will convert "multiple" and "unknown" to NAs.
+
+Instead, sort only after extracting the desired chromosome. (ie. chromosome 1 to 10) and leave "multiple" and "unknown" unsorted.
+
+Even though you run a code to ignore the NAs, there were already some NAs in the data that were truncated in chromosomes 2, 4, 6, 7, and 9
+
+Your "multiple" chromosome outputs have some chromosomes 2, 4, 6,7, and 9 columns in the file
