@@ -1,0 +1,38 @@
+---
+title: "Kofi_Review_for_Nazmul"
+author: "kofi"
+date: "2025-03-24"
+output: html_document
+---
+After inspecting your files, I realised the most important column ("Group") for data processing had been deleting by one of your codes. 
+
+The code below removed the Group column;
+5. selecting all columns of the maize data frame except the second and third columns.
+
+```sh
+maize_extract <- maize[,c(-2,-3)]
+
+```
+
+You will have to extract the data frame with the exception of the first 2 columns instead.
+Modify the code as shown below;
+
+5. selecting all columns of the maize data frame except the first and second columns.
+```sh
+maize_extract <- maize[,c(-1,-2)]
+
+```
+
+You should use different names for each step of data processing to track changes. Something like maize_extract, maize_transpose, maize_colnames, maize_rownames, maize, maize_merged, etc, will be much better than writing changes to the same file over and over again.
+
+When you converted multiple and unkown to NAs and filtered out the NA, you lost a big part of the data in the process.
+
+Instead skip this step and generate your chromosome 1 to 10 files, "multiple" and "unknown" files without sorting.
+
+You can then sort the chromosome 1 to 10 files after they are generated.
+
+The codes needed to generate "multiple" and "unknown" chromosome files are missing from your markdown.
+
+You should include a title for your first plot
+
+
